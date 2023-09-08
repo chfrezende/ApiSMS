@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Envio SMS</title>
+</head>
+<body>
+    <p>Insira a napikey:</p>
+    <input type="text" id = "napikey"><br><br>
+    <p>Insira o número que receberá o sms:</p>
+    <input type="text" id = "numero"><br><br>
+    <p>Insira a mensagem:</p>
+    <input type="text" id = "mensagem"><br><br>
+    <button onclick="enviarSMS()">Enviar SMS</button>
+
+</body>
+<script>
+    function enviarSMS(){
+        var data = JSON.stringify({
+        "numberPhone": document.getElementById("numero").value,
+        "message": document.getElementById("mensagem").value,
+        "flashSms": false
+        });
+
+        var xhr = new XMLHttpRequest();
+        xhr.withCredentials = true;
+
+        xhr.addEventListener("readystatechange", function() {
+        if(this.readyState === 4) {
+            console.log(this.responseText);
+        }
+        });
+
+        xhr.open("POST", "https://api.nvoip.com.br/v2/sms?napikey="+ document.getElementById("napikey").value+ "");
+        xhr.setRequestHeader("Content-Type", "application/json");
+
+        xhr.send(data);
+
+        }
+    
+</script>
+</html>
+
